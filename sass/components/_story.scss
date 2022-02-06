@@ -1,0 +1,121 @@
+.story {
+
+    width: 75%;
+    margin: 0 auto;
+    padding: 6rem;
+    padding-left: 9rem;
+    font-size: $fs-default;
+    box-shadow: 0 3rem 6rem rgba($cl-black, .1);
+    background-color: rgba($cl-white , .6);
+    border-radius: 6px;
+
+    transform: skewX(-12deg);
+
+    @include respond(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 8rem;
+    }
+
+    @include respond(phone) {
+        transform: skewX(0);
+    }
+
+    & > * {
+        // Si hay algún hijo que ya tenga 'transform', entonces no aplicará esta propiedad.
+        // En CSS no se pueden apilar 2 valores transform distintos a un elemento.
+        transform: skewX(12deg);
+
+        @include respond(phone) {
+            transform: skewX(0);
+        }
+    }
+    
+
+    &__shape {
+
+        position: relative;
+        
+        // # Cómo hacer que el texto se adapte a una figura
+        // 1: Definir las dimensiones
+
+        width: 15rem;
+        height: 15rem;
+
+        // 2: Aplicar float
+        
+        float: left;
+
+        /* 3: Hay que establecer una figura para que el texto se acomode,
+         en este caso un circulo */
+
+         // circle(radio at <originX> <originY>) El radio es la mitad del díametro.
+        -webkit-shape-outside: circle(50% at 50% 50%);
+        shape-outside: circle(50% at 50% 50%);
+
+        // 4: Damos el aspecto final de la figura.
+
+        overflow: hidden; // Corrige un glitch.
+        // -webkit-clip-path: circle(50% at 50% 50%);
+        // clip-path: circle(50% at 50% 50%); // Da forma de círculo
+        transform: translateX(-3rem) skewX(12deg); // Da espacio y corrige skew
+
+        border-radius: 50%;
+
+        @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%); // Da forma de círculo
+            border-radius: none;
+        }
+
+        @include respond(tab-port) {
+            transform: translateX(-4rem) translatey(-1rem) skewX(12deg);
+        }
+
+        @include respond(phone) {
+            transform: translateX(-2rem) translatey(-1rem) skewX(0);
+        }
+    }
+
+    &__image {
+        height: 100%;
+        // Trasladamos la imagen para que parezca centrada. Esto no altera el contenedor padre
+        transform: translateX(-4rem) scale(1.4);
+        backface-visibility: hidden;
+        transition: all .5s;
+    }
+
+    // &__text {
+    //     transform: skewX(12deg);
+    // }
+
+    &__caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+
+        font-size: 1.7rem;
+        text-align: center;
+        text-transform: uppercase;
+        color: $cl-white;
+        opacity: 0;
+
+        backface-visibility: hidden; // Arregla el bug
+        transition: all .5s;
+    }
+
+    &:hover &__caption {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover &__image {
+        
+        // Efecto zoom-out 
+        transform: translateX(-4rem) scale(1);
+        // Efecto blur y bright
+        filter: blur(3px) brightness(80%);
+    }
+}

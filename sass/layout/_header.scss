@@ -1,0 +1,77 @@
+.header {
+    position: relative;
+    /* Podemos escribir 'backima' y el intellisense va a detectar la propieadad. */
+    /* Se recomienda utilizar background-image para los degradados */
+    /* Lo que se declara primero permanece arriba de todo */
+    height: 85vh;
+    background-image: linear-gradient(
+        to right bottom, 
+        rgba($cl-primary-light, .8), 
+        rgba($cl-primary-dark, .8)), 
+        url(../img/hero-small.jpg);
+    background-size: cover;
+    /* Indica desde donde debe escalarse la imagen */
+    background-position: top;
+
+
+    // Siempre hay que colocar un valor en la validación, no importa cual.
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+
+        height: 95vh;
+
+        /* Clip-path te permite cortar una sección de un elemento, haciendo
+        que una parte sea visible y otra no. Para esto utiliza la función 
+        polygon que recibe como parámetro los diferentes vertices del poligono
+        al cuál le queremos aplicar el clip-path. Lo que esté dentro del poligono
+        se mantendrá visible. Esta propiedad no afecta al del elemento tamaño en el DOM */
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    }
+
+    /*
+        ! Responsive Images
+            En este media querie estamos estableciendo múltiples condiciones (resolución >= 192dpi 
+            && screen width >= 37.2em || screen width >= 125em). A partir de este breakpoint usamos la imagen más grande.
+    */
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.2em),
+           only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.2em), // Agregamos esta línea por compatibilidad
+           only screen and (min-width: 125em) {
+        background-image: linear-gradient(
+        to right bottom, 
+        rgba($cl-primary-light, .8), 
+        rgba($cl-primary-dark, .8)), 
+        url(../img/hero.jpg);
+    }
+
+    @include respond(tab-port) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    }
+
+
+    @include respond(phone) {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 90vh, 0 100%);
+    }
+
+    &__logo-box {
+        position: absolute;
+        top: 4rem;
+        left: 5rem;
+    }
+    
+    &__logo {
+        /* El navegador calcula automáticamente el width */
+        height: 3.5rem;
+    }
+    
+    &__text-box {
+        /* Esta es una forma de centrar elementos sin afectar al padre */
+        position: absolute;
+        top: 40%; /* pequeño offset con fines estéticos */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* text-align alinea también elementos <a> */
+        text-align: center;
+    }
+}

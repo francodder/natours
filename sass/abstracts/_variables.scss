@@ -1,0 +1,34 @@
+// --- COLORS
+
+$cl-primary: #55c57a;
+$cl-primary-light: #7ed56f;
+$cl-primary-dark: #28b485;
+
+$cl-secondary-light: #ffb900;
+$cl-secondary-dark: #ff7730;
+
+$cl-tertiary-light: #2998ff;
+$cl-tertiary-dark: #5643fa;
+
+$cl-gray-light-1: #f7f7f7; // Provee un contraste muy sutíl con el blanco
+$cl-gray-light-2: #eee;
+$cl-gray-dark: #777;
+$cl-gray-dark-2: #999; 
+$cl-gray-dark-3: #333; 
+
+// Es mejor almacenar los colores en variables para que sean más manejables, incluso el blanco y negro.
+$cl-white: #fff; 
+$cl-black: #000;
+
+
+// --- FONT
+$fs-default: 1.6rem;
+
+// --- GRID
+
+$grid-width: 114rem;
+$grid-width-small: 60rem;
+
+$gutter-vertical: 8rem; // Gap
+$gutter-vertical-small: 6rem;
+$gutter-horizontal: 6rem;

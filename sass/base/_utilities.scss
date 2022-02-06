@@ -1,0 +1,62 @@
+/* Utility classes son clases que tienen un objetivo en concreto, 
+   como por ejemplo centrar un texto. De esta manera no estamos 
+   modificando el css de una clase en concreto y brindamos al componente
+   de mayor reutilización.
+*/
+
+// En las utility classes podemos usar !important ya que queremos que tengan prioridad
+
+.u-center-text {
+    text-align: center !important;
+}
+
+.u-left-text {
+    text-align: left !important;
+}
+
+.u-margin-top {
+    
+    &-small {
+        margin-top: 1.5rem !important;
+    }
+
+    &-medium {
+        margin-top: 4rem !important;
+    }
+
+    &-big {
+        margin-top: 8rem !important;
+    }
+
+    &-huge {
+        margin-top: 10rem !important;
+    }
+}
+
+.u-margin-bottom {
+    
+    &-small {
+        margin-bottom: 1.5rem !important;
+    }
+
+    &-medium {
+        margin-bottom: 4rem !important;
+
+        @include respond(tab-port) {
+            margin-bottom: 3rem !important;
+        }
+    }
+
+    &-big {
+        margin-bottom: 8rem !important;
+
+        @include respond(tab-port) {
+            margin-bottom: 5rem !important;
+        }
+    }
+
+    &-huge {
+        margin-bottom: 12rem !important;
+    }
+}
+

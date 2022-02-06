@@ -1,0 +1,121 @@
+// Estructura componente
+.btn {
+
+    /* Las pseudoclases nos sirven para dotar de estilos a elementos bajo 
+       ciertas condiciones. Tienen el mismo valor de especificidad que las clases.*/
+    &,   
+    &:link,
+    &:visited {
+        position: relative;
+        /* Por defecto <a> tiene display: inline, lo que crea un solapamiento.
+           Cambiando el display a inline-block hacemos que tome todo el alto del elemento.  */
+        display: inline-block;
+        padding: 1.5rem 4rem;
+        font-size: $fs-default;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 20rem;
+    
+        /* La transición debe estar en el elemento base para que se aplique en todas
+           las pseudo clases. */
+        transition: all .2s;
+
+        // Cambios para el elemnto <button>
+        border: none;
+        cursor: pointer;
+    }
+    
+    &:hover {
+        transform: translateY(-3px);
+        /* box-shadow: X Y Blur Color; */
+        box-shadow: 0 .8rem 1.2rem rgba($cl-black, .2);
+
+        /* Afecta el ::after cuando se hace hover */
+        &::after {
+            /* Establecemos 2 escalas diferentes para que el efecto sea más simétrico */
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+    }
+    
+    /* El objetivo de esta pseudoclase es generar un efecto de hundimiento del botón */
+    &:active,
+    &:focus {
+        outline: none;
+        transform: translateY(-0.1rem);
+        box-shadow: 0 .4rem .6rem rgba($cl-black, .2);
+    }
+    
+    /* Con este pseudo elemento generamos un elemento similar al botón que será
+       el que vamos a animar. */
+    &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* Content y display son necesarios para que el pseudo elemento se meustre */
+        content: '';
+        display: inline-block;
+        /* CSS trata e los pseudo elementos como hijos, por eso podemos aplicar
+           porcentajes con seguridad */
+        width: 100%;
+        height: 100%;
+        border-radius: 20rem;
+        z-index: -1;
+        transition: all .4s;
+    }
+
+    &--white {
+        background-color: #fff;
+        color: $cl-gray-dark;
+
+        &::after {
+            background-color: $cl-white;
+        }
+    }
+
+    &--green {
+        background-color: $cl-primary;
+        color: $cl-white;
+
+        &::after {
+            background-color: $cl-primary;
+        }
+    }
+    
+    
+    /* Un elemento puede tener animación y transición, estás no se sobreescriben */
+    &--animated {
+        animation: moveInBottom .4s ease-out .75s;
+        /* Aplica el estilo de la animación al 0% hasta que la animación se complete */
+        animation-fill-mode: backwards;
+    }
+}
+
+.btn-text {
+
+    &:link,
+    &:visited {
+        padding: .6rem .6rem;
+        display: inline-block;
+        font-size: $fs-default;
+        text-decoration: none;
+        color: $cl-primary;
+        // Medidas tan pequeñas como 1px no hace falta ponerlas en rem
+        border-bottom: 1px solid $cl-primary; 
+        transition: all .2s;
+    }
+
+    &:hover {
+        padding: .6rem 1.5rem;
+        background-color: $cl-primary;
+        color: $cl-white;
+        box-shadow: 0 .6rem .8rem rgba($cl-black, .15);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        padding: .6rem 1.5rem;
+        box-shadow: 0 .3rem .4rem rgba($cl-black, .15);
+        transform: translateY(0);
+    }
+}

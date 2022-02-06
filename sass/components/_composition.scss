@@ -1,0 +1,76 @@
+.composition {
+
+    position: relative;
+
+    &__photo {
+        position: absolute;
+        width: 55%;
+        border-radius: 2px;
+        box-shadow: 0 1.5rem 3rem rgba($cl-black, .3rem);
+        outline-offset: 1.5rem;
+        z-index: 10;
+        transition: all .2s ease-out;
+
+        @include respond(tab-port) {
+            position: relative;
+            float: left;
+            width: 33.333%;
+            box-shadow: 0 1.5rem 3rem rgba($cl-black, .2rem);
+        }
+
+        &--p1 {
+            left: 0;
+            top: -2rem;
+
+            @include respond(tab-port) {
+                top: 1rem;
+                transform: scale(1.5);
+            }
+        }
+
+        &--p2 {
+            right: 0;
+            top: 2rem;
+
+            @include respond(tab-port) {
+                top: -1rem;
+                transform: scale(1.5);
+                z-index: 100;
+            }
+        }
+
+        &--p3 {
+            left: 20%;
+            top: 10rem;
+
+            @include respond(tab-port) {
+                top: 1rem;
+                left: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        &:hover {
+            transform: scale(1.05) translateY(-.5rem);
+            box-shadow: 0 2.5rem 4rem rgba($cl-black, .45rem);
+            outline: 1rem solid $cl-primary;
+            z-index: 20;
+
+            @include respond(tab-port) {
+                transform: scale(1.5);
+                box-shadow: 0 1.5rem 3rem rgba($cl-black, .3rem);
+                outline: none;
+            }
+        }
+    }
+
+    /* Cuando la composición esté hover, entonces selecciona las imagenes
+       que no estén con efecto hover. */
+    &:hover &__photo:not(:hover) {
+        transform: scale(.9);
+
+        @include respond(tab-port) {
+            transform: scale(1.5);
+        }
+    }
+}

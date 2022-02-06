@@ -1,0 +1,269 @@
+.card {
+
+
+    // ---- FUNCTIONALITY
+
+    position: relative;
+    height: 52rem;
+    
+    /* Con esta propiedad logramos generar un efecto de perspectiva. La propiedad
+    debe estar en un elemento padre del elemento al que se le aplicará la perspectiva. 
+    Se recomienda usar la estructura:
+        <card>
+            <side-a> </side-a>
+            <side-b> </side-b>
+        </card>
+    Números muy bajos o muy altos en 'perspective' daran un efecto indeseado, hay que jugar
+    con los números hasta encontrar el efecto deseado. 
+    */
+    -moz-perspective: 150rem; // compatibilidad
+    perspective: 150rem;
+
+    &__side {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 52rem;
+
+        /* Estableciendo un 'overflow: hidden' en el padre nos evitamos tener que colorcar
+           el border radious en todos los hijos. */ 
+        border-radius: 6px;
+        overflow: hidden;
+
+        box-shadow: 0 1.5rem 4rem rgba($cl-black, .15);
+
+        // Ocultamos el lado trasero de la tarjeta.
+        backface-visibility: hidden;
+        transition: all .8s ease;
+        
+        &--front {
+            background-color: $cl-white;
+        }
+
+        &--back {
+            transform: rotateY(180deg);
+        }
+    }
+
+    &:hover &__side--front {
+        // Usamos -180deg (negativo) para coordinar el movimiento de ambas caras.
+        transform: rotateY(-180deg);
+    }
+
+    &:hover &__side--back {
+        transform: rotateY(0);
+    }
+
+    // ---- FRONT SIDE STYLING
+
+    &__picture {
+
+        height: 23rem;
+        background-size: cover;
+
+        // Esta propiedad permite establecer un compartamiendo al mezclar fondos.
+        // Sería como las opciones de fusión en photoshop
+        background-blend-mode: color;
+         // Queda tremendo
+
+        //  Las propiedades con prefijos siempre deben ir primero.
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+
+        &--1 {
+            // El blend mode establecido afectará a la unión de estos dos fondos.
+            background-image: linear-gradient(to right bottom, $cl-secondary-light, $cl-secondary-dark),
+            url(../img/nat-5.jpg);
+            // El código se ejecutará en style.css. Hay que tener en cuenta la ruta desde ahí.
+        }
+
+        &--2 {
+            background-image: linear-gradient(to right bottom, $cl-primary-light, $cl-primary-dark),
+            url(../img/nat-6.jpg);
+        }
+
+        &--3 {
+            background-image: linear-gradient(to right bottom, $cl-tertiary-light, $cl-tertiary-dark),
+            url(../img/nat-7.jpg);
+        }
+    }
+
+    &__heading {
+
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+
+        width: 74%;
+
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-align: right;
+        text-transform: uppercase;
+        color: white;
+
+        background-blend-mode: screen;
+    }
+
+    // No lo anidamos dentro de heading porque est un elemento distinto
+    &__heading-span {
+
+        /* Al agregar padding a un texto, si el texto tiene un salto de línea
+        el padding no se aplicará correctamente. */
+        padding: 1rem 1.5rem;
+        // Con esta propiedad logramos que el padding se aplique bien al texto.
+        // Lo que hace es clonar las líneas de texto para que tengan las mismas propiedades.
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+
+        &--1 {
+            background-image: linear-gradient(
+                to right bottom, 
+                rgba($cl-secondary-light, .90), 
+                rgba($cl-secondary-dark, .90));
+        }
+
+        &--2 {
+            background-image: linear-gradient(
+                to right bottom, 
+                rgba($cl-primary-light, .90), 
+                rgba($cl-primary-dark, .90));
+        }
+
+        &--3 {
+            background-image: linear-gradient(
+                to right bottom, 
+                rgba($cl-tertiary-light, .90), 
+                rgba($cl-tertiary-dark, .90));
+        }
+    }
+
+    // # Browser Vendor Prefixes
+    // -webkit: Chrome, android, iOS, & Safari compatibility
+    // -moz: Mozilla firefox compatibility
+    // -ms: IE compatibility
+    // -o: Opera compatibility
+
+
+    &__details {
+        
+        padding: 3rem;
+
+        ul {
+
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+
+            li {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $cl-gray-light-2;
+                }
+            }
+        }
+    }
+
+    // ---- BACK SIDE STYLING
+    
+    &__side--back {
+        
+        &-1 {
+            background-image: linear-gradient(to right bottom, $cl-secondary-light, $cl-secondary-dark);
+        }
+
+        &-2 {
+            background-image: linear-gradient(to right bottom, $cl-primary-light, $cl-primary-dark);
+        }
+
+        &-3 {
+            background-image: linear-gradient(to right bottom, $cl-tertiary-light, $cl-tertiary-dark);
+        }
+    }
+
+    &__cta {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+    }
+
+    &__price-box {
+        color: $cl-white;
+        margin-bottom: 7rem;
+    }
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        backface-visibility: hidden;
+    }
+
+    &__price-value {
+        font-size: 8rem;
+        font-weight: 100;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+
+    // Cambia el diseño de las tarjetas para que se adapten a dispositivos móviles.
+
+    // (hover: none) permite identificar si el dispotivo es touch (cel, tablet, etc) o no, y así dispensar el código apropiado
+    
+    @media only screen and (max-width: 56.25em),
+           only screen and (hover: none) {
+
+        height: auto;
+        border-radius: 6px;
+        background-color: $cl-white;
+        box-shadow: 0 1.5rem 4rem rgba($cl-black, .15);
+
+        &__side {
+            position: relative;
+            height: auto;
+            box-shadow: none;
+
+            &--back {
+                transform: rotateY(0);
+                clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+            }
+        }
+
+        &:hover &__side--front {
+            transform: rotateY(0);
+        }
+
+        &:hover &__side--back {
+            transform: rotateY(0);
+        }
+
+        &__details {
+            padding: 1rem 3rem;
+        }
+
+        &__cta {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 7rem 4rem 4rem 4rem;
+            text-align: center;
+            transform: translate(0);
+        }
+
+        &__price-box {
+            margin-bottom: 3rem;
+        }
+
+        &__price-value {
+            font-size: 8rem;
+        }
+    }
+}

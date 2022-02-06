@@ -1,0 +1,87 @@
+@mixin clearfix {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin absCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+// ------------------ MEDIA QUERY MANAGER -----------------
+
+
+// # Resoluciones 
+
+/*
+    0 - 600px:          Phone
+    600 - 900px:        Tablet portrait
+    900 - 1200px:       Tablet landscape
+    [1200 - 1800px]     Normal styles
+    1800 + ∞            Big desktop 
+*/
+
+/* # Método 1:
+   Utilizamos @content que nos permite pasar como argumento un bloque de código a nuestro mixin */
+
+@mixin respond-phone {
+    @media (max-width: 600px) {@content};
+}
+
+/* Método 2: 
+   Utilizamos un argumento que nos permite evaluar con @if a que media querie aplicará el bloque de código 
+   pasado en @content */
+
+/*
+    $breakpoint (string) argument values:
+    - phone
+    - tab-port
+    - tab-land
+    - big-desktop
+*/
+@mixin respond($breakpoint) {
+
+    /* En los breackpoints em y rem no se ven modificdas por lo establecido en el font-size (html tag), 
+       si no que se mantienen fiel a los ajustes del navegador, por lo que si el usuario cambia el tamaño 
+       de fuente desde los ajustes los breakpoints no se veran como corresponde. 
+       Además em es mejor que rem para los breakpoints. 
+       Debemos dividir la cantidad en píxeles de nuestro breakpoint por 16px (default font-size) */
+
+    /* Agregar 'only screen' es una buena práctica para limitar los breakpoints solo al tamaño
+        de la pantalla no a otros factores */
+
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) {@content};      // 600px / 16px = 37.5rem
+    }
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) {@content};     // 900px / 16px = 56.25rem
+    }
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) {@content};        // 1200px / 16px = 75rem
+    }
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) {@content};     // 1800px / 16px = 112.5rem
+    }
+
+    // En el mixin no interesa el orden de los breakpoints porque no se compila directamente
+    
+
+    /* Orden del responsive:
+       Base + typography > general layout + grid > page + individual layout > components */
+
+    /* 
+        - Se recomienda empezar a testear en el navegador y luego probar en dispositivos reales. 
+        - El chabon empieza desde la resolución desktop y va bajando hasta encontrar que el diseño 
+          no le gusta, entonces en el breakpoint anterior mete el cambio.
+    
+    */
+
+
+}

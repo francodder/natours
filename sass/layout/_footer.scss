@@ -1,0 +1,91 @@
+.footer {
+    padding: 10rem 0;
+    font-size: 1.4rem;
+    color: $cl-gray-light-1;
+    background-color: $cl-gray-dark-3;
+
+    @include respond(tab-port) {
+        padding: 8rem 0;
+    }
+
+    &__logo-box {
+        // Todo lo que sea inline element podemos alinearlo así
+        text-align: center;
+        margin-bottom: 8rem;
+
+        @include respond(tab-port) {
+            margin-bottom: 6rem;
+        }
+    }
+
+    &__logo {
+        width: 15rem;
+        height: auto;
+
+        @include respond(phone) {
+            width: 30rem;
+        }
+    }
+
+    &__navigation {
+        padding-top: 2rem;
+        // Evita que la línea ocupe más que su contenido
+        display: inline-block;
+        border-top: 1px solid $cl-gray-dark;
+
+        @include respond(tab-port) {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    &__list {
+        list-style: none;
+    }
+
+    &__item {
+        display: inline-block;
+
+        &:not(:last-child) {
+            margin-right: 1rem;
+        }
+    }
+
+    &__link {
+
+        &:link,
+        &:visited {
+            padding: 1rem;
+            display: inline-block;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: inherit;
+            background-color: $cl-gray-dark-3;
+            transition: all .2s;
+        }
+
+        &:hover,
+        &:active {
+            color: $cl-primary;
+            box-shadow: 0 1rem 2rem rgba($cl-black, .4);
+        }
+
+        &--reduced {
+            
+            &:link,
+            &:visited {
+
+                padding: 4px;
+            }
+        }
+    }
+
+    &__copyright {
+        padding-top: 2rem;
+        border-top: 1px solid $cl-gray-dark;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+    }
+}

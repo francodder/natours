@@ -1,0 +1,133 @@
+.form {
+
+    &__group:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+
+    &__input {
+        width: 90%;
+        // Normalmente hay que agregar más padding a los lados, queda mejor.
+        padding: 1.5rem 2rem; 
+        // Con display: block hacemos que el label se coloque debajo del input
+        display: block;
+        font-size:  1.5rem;
+        font-family: inherit;
+        color: inherit;
+        border-radius: 2px; 
+        background-color: rgba($cl-white, 1);
+        border: none;
+        // Con esto logramos que el borde esté tomado en cuenta para el tamaño, pero no se vea
+        border-bottom: 3px solid transparent;
+
+        transition: all .3s;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+
+        &::-webkit-input-placeholder {
+            color: $cl-gray-dark-2;
+        }
+
+        &:focus {
+            /* Por cuestiones de accesibilidad siempre debemos indicar que elemento 
+               de nuestra UI está seleccionado, más en un formulario. */
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($cl-black, .1);
+            border-bottom: 3px solid $cl-primary;
+        }
+        
+        // Input no válido
+        &:focus:invalid {
+            border-bottom: 3px solid $cl-secondary-dark;
+        }
+    }
+
+
+    &__label {
+        display: block;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        transition: all .3s;
+    }
+
+    // Cuando el placeholder del input se muestre, usa esto
+    // Para usar el sibiling selector (+), el segundo elemento siempre debe ser antecedido del primero
+    &__input:placeholder-shown + &__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+
+    // # RADIO BUTTONs
+
+    /* En CSS no se pueden aplicar estilos a los radio buttons, entonces lo que hacemos
+       es crear un <label> asociado al botón, luego creamos un elemento dentro del label que
+       simule el comportamiento del radio-button. Por último hay que ocultar el radio button original
+       para que no se vea, pero aún así al estar asociado a <label> seguirá funcionando.
+    */
+
+    &__radio-group {
+        width: 49%;
+        // Para que se muestren al lado
+        display: inline-block;
+
+        @include respond(phone) {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__radio-input {
+        display: none;
+    }
+
+    &__radio-label {
+        position: relative;
+        padding-left: 4rem;
+        font-size: $fs-default;
+        cursor: pointer;
+    }
+
+    &__radio-button {
+
+        position: absolute;
+        left: 0;
+        top: -4px;
+        height: 3rem;
+        width: 3rem;
+        display: inline-block;
+        border: 5px solid $cl-primary;
+        border-radius: 50%;
+
+        // Punto interior del radio button
+        &::after {
+            
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            // Necesario
+            content: '';
+            display: block;
+            height: 1.3rem;
+            width: 1.3rem;
+
+            border-radius: 50%;
+            background-color: $cl-primary;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+    }
+
+    // ~ selector general de hermanos ~
+    // Al checkear el input selecciona al ::after del radio button dentro del radio-label que está a tu lado
+    &__radio-input:checked ~ &__radio-label &__radio-button::after {
+        opacity: 1;
+    }
+
+}

@@ -1,0 +1,94 @@
+body {
+    font-family: 'lato', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    color: $cl-gray-dark;
+}
+
+.heading-primary {
+    margin-bottom: 6rem;
+    text-transform: uppercase;
+    color: $cl-white;
+
+    /* Esta propiedad es un fix del shake que se genera al completarse
+       una animación que tiene transform. 
+       La propiedad determina si la cara trasera de un elemento debe
+       mostrarse al ser transformado / rotado. */
+    backface-visibility: hidden;
+
+    &--main {
+        /* Esto genera un quiebre de línea */
+        display: block;
+        font-size: 6rem;
+        font-weight: 400;
+        letter-spacing: 3.5rem;
+        animation-name: moveInLeft;
+        animation-duration: 1.2s;
+        animation-timing-function: ease-in-out;
+
+        @include respond(phone) {
+            font-size: 5rem;
+            letter-spacing: 1rem;
+        }
+    }
+    
+    &--sub {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.75rem;
+        animation: moveInRight 1.2s ease-in-out;
+
+        @include respond(phone) {
+            letter-spacing: 1rem;
+        }
+    }
+}
+
+.heading-secondary {
+    display: inline-block; // Hacemos que el background solo ocupe el tamaño del título
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all .2s;
+
+    // GRADIENT IN TEXTS 
+    
+    // 1° Colocamos el gradiente
+    background-image: linear-gradient(to right, $cl-primary-light, $cl-primary-dark);
+    // 2° Hacemos que el background solo se ajuste al texto
+    -webkit-background-clip: text;
+    background-clip: text;
+    // 3° Hacemos el color del texto transparente para que se vea el background
+    color: transparent;
+
+    &:hover {
+        transform: skewY(2deg) scale(1.1);
+        text-shadow: .5rem .5rem .6rem rgba($cl-black, .15);
+    }
+
+    @include respond(tab-port) {
+        font-size: 3rem;
+    }
+    
+    // Phone es la resolución más pequeña así que va al final
+    @include respond(phone) {
+        font-size: 2.5rem;
+    }
+}
+
+.heading-tertiary {
+
+    font-size: $fs-default;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph {
+    font-size: $fs-default;
+    
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}

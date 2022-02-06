@@ -1,0 +1,164 @@
+.popup {
+
+    /* En algunos casos es mejor dejar el scroll cuando hay un popup,
+       así no da la sensación de pérdida del control de la web. */
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; // Siempre usa % en el width
+    height: 100vh;
+    z-index: 5000;
+    background-color: rgba($cl-black, .8);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+
+    /*
+    ! Graceful Degradation
+        Por medio de @supports preguntamos al navegador si soporta o no la propiedad especificada,
+        en caso de soportarla aplica el código contenido en su interior.
+        De lo contrario no lo aplicará y se mostrará el escrito arriba (por defecto).
+    */
+
+    /* La diferencia entre 'filter' y 'backdrop-filter' es que mientras que en el primero los 
+       filtros se aplican al elemento, en el último los filtros se aplican a los objetos que están 
+       detrás del elemento. */
+    @supports(-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+        background-color: rgba($cl-black, .3);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+
+
+    /* La pseudo clase :target representa a un elemento único, esta se activa cuando
+       la url coincide con el id del elemento que tiene la pseudoclase.
+       Ej: https://localhost:4200/#popup
+       Una manera simple de activarla es estableciendo <a href="#popup"> 
+    */ 
+    &:target {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    &:target &__content {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    &__close {
+
+        &:link,
+        &:visited {
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            display: inline-block;
+            font-size: 3rem;
+            line-height: 0.5; // Remueve el espacio de mas
+            text-decoration: none;
+            color: $cl-gray-dark;
+            transition: all .2s;
+        }
+
+        &:hover {
+            color: $cl-primary;
+        }
+    }
+
+    &__content {
+        @include absCenter;
+
+        width: 75%;
+
+        /* Parece ser la tecnología que había antes de flexbox. Da el mismo 
+           height a las cajas hijas. Las elementos hijos deben tener la propiedad
+           display: table-cell.
+        */
+        display: table;
+        overflow: hidden;
+
+        // height: 65rem;
+
+        border-radius: 6px;
+        background-color: $cl-white;
+        box-shadow: 0 2rem 4rem rgba($cl-black, .2);
+        opacity: 0;
+        // Tenemos que agregar el translate para perder esa propiedad
+        transform: translate(-50%, -50%) scale(.25);
+        transition: all .4s .2s;
+
+    }
+
+   
+
+    &__left {
+        width: 33.333%; // Ocupa 1/3
+        display: table-cell;
+
+        @include respond(tab-land) {
+            display: none
+        }
+    }
+
+    &__right {
+        width: 66.666%; // Ocupa 2/3
+        padding: 3rem 5rem;
+        display: table-cell;
+        // *Esta propiedad hace que el height total sea el del contenido
+        vertical-align: middle; 
+
+        @include respond(tab-land) {
+            width: 100%;
+        }
+    }
+
+    &__img {
+        display: block;
+        width: 100%;
+
+        @include respond(tab-land) {
+            display: none
+        }
+    }
+
+    /* El chabon dice que no tenés que poner los prefijos manualmente, si no
+       que eso se automatiza con autoprefixer.*/
+
+    &__text {
+        margin-bottom: 4rem;
+
+        font-size: 1.4rem;
+        // *Crea columnas de texto
+        -moz-column-count: 2;
+        column-count: 2;
+        -moz-column-gap: 4rem;
+        column-gap: 4rem;
+        // *Borde que está entre medio de las columnas
+        -moz-column-rule: 1px solid $cl-gray-light-2;
+        column-rule: 1px solid $cl-gray-light-2;
+        /* Agrega guiones en las palabras que no caben. Requiere que definas un lenguagje
+           en el html (<html lang="es">) */
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+
+        @include respond(phone) {
+            margin-bottom: 4rem;
+
+            font-size: 1.4rem;
+            -moz-column-count: 1;
+            column-count: 1;
+            -moz-column-gap: 0;
+            column-gap: 0;
+            -moz-column-rule: none;
+            column-rule: none;
+            -moz-hyphens: auto;
+            -ms-hyphens: auto;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+
+        }
+    }
+}
